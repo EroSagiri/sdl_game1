@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL.h>
 #include <time.h>
+#include <SDL_ttf.h>
 
-#define MAP_WIDTH 5
-#define MAP_HEIGHT 5
+#define MAP_WIDTH 4
+#define MAP_HEIGHT 4
 #define L_WIDTH 150
 
 #define WINDOW_WIDTH MAP_WIDTH*L_WIDTH
@@ -47,86 +47,86 @@ int load_texture() {
         SDL_Log("字体丢失\n");
         return -1;
     }
-    
+
     SDL_Surface *s;
-    
+
     s = SDL_LoadBMP("images/2.bmp");
     if(s == NULL) {
         s = TTF_RenderText_Solid(font, "2", texture_color);
     }
     t2 = SDL_CreateTextureFromSurface(renderer, s);
     SDL_FreeSurface(s);
-    
+
     s = SDL_LoadBMP("images/4.bmp");
     if(s == NULL) {
         s = TTF_RenderText_Solid(font, "4", texture_color);
     }
     t4 = SDL_CreateTextureFromSurface(renderer, s);
     SDL_FreeSurface(s);
-    
+
     s = SDL_LoadBMP("images/8.bmp");
     if(s == NULL) {
         s = TTF_RenderText_Solid(font, "8", texture_color);
     }
     t8 = SDL_CreateTextureFromSurface(renderer, s);
     SDL_FreeSurface(s);
-    
+
     s = SDL_LoadBMP("images/16.bmp");
     if(s == NULL) {
         s = TTF_RenderText_Solid(font, "16", texture_color);
     }
     t16 = SDL_CreateTextureFromSurface(renderer, s);
     SDL_FreeSurface(s);
-    
+
     s = SDL_LoadBMP("images/32.bmp");
     if(s == NULL) {
         s = TTF_RenderText_Solid(font, "32", texture_color);
     }
     t32 = SDL_CreateTextureFromSurface(renderer, s);
     SDL_FreeSurface(s);
-    
+
     s = SDL_LoadBMP("images/64.bmp");
     if(s == NULL) {
         s = TTF_RenderText_Solid(font, "64", texture_color);
     }
     t64 = SDL_CreateTextureFromSurface(renderer, s);
     SDL_FreeSurface(s);
-    
+
     s = SDL_LoadBMP("images/128.bmp");
     if(s == NULL) {
         s = TTF_RenderText_Solid(font, "128", texture_color);
     }
     t128 = SDL_CreateTextureFromSurface(renderer, s);
     SDL_FreeSurface(s);
-    
+
     s = SDL_LoadBMP("images/256.bmp");
     if(s == NULL) {
         s = TTF_RenderText_Solid(font, "256", texture_color);
     }
     t256 = SDL_CreateTextureFromSurface(renderer, s);
     SDL_FreeSurface(s);
-    
+
     s = SDL_LoadBMP("images/512.bmp");
     if(s == NULL) {
         s = TTF_RenderText_Solid(font, "512", texture_color);
     }
     t512 = SDL_CreateTextureFromSurface(renderer, s);
     SDL_FreeSurface(s);
-    
+
     s = SDL_LoadBMP("images/1024.bmp");
     if(s == NULL) {
         s = TTF_RenderText_Solid(font, "1024", texture_color);
     }
     t1024 = SDL_CreateTextureFromSurface(renderer, s);
     SDL_FreeSurface(s);
-    
+
     s = SDL_LoadBMP("images/2048.bmp");
     if(s == NULL) {
         s = TTF_RenderText_Solid(font, "2048", texture_color);
     }
     t2048 = SDL_CreateTextureFromSurface(renderer, s);
     SDL_FreeSurface(s);
-    
+
     return 0;
 }
 
@@ -135,7 +135,7 @@ int render_thread()
     int ww, wh;
     int t_x = 0;
     int t_y = 0;
-    
+
     while(event.type != SDL_QUIT) {
         SDL_RenderClear(renderer);
         SDL_GetWindowSize(window, &ww, &wh);
@@ -145,7 +145,7 @@ int render_thread()
         if(wh > MAP_HEIGHT * L_WIDTH) {
             t_y = (wh-L_WIDTH*MAP_HEIGHT)/2;
         }
-        
+
         for(int x = 0; x <= MAP_WIDTH; x ++) {
             SDL_SetRenderDrawColor(renderer, 0xff, 0xb6, 0xc1, 0);
             SDL_RenderDrawLine(renderer, x*L_WIDTH + t_x, t_y, x*L_WIDTH+t_x, MAP_HEIGHT*L_WIDTH+t_y);
@@ -154,7 +154,7 @@ int render_thread()
             SDL_SetRenderDrawColor(renderer, 0xff, 0xb6, 0xc1, 0);
             SDL_RenderDrawLine(renderer, t_x, y*L_WIDTH+t_y, MAP_WIDTH*L_WIDTH+t_x, y*L_WIDTH+t_y);
         }
-        
+
         for(int x = 0; x < MAP_WIDTH; x++) {
             for(int y = 0; y < MAP_HEIGHT; y++) {
                 if(map[x][y] == 2) {
@@ -203,13 +203,13 @@ int render_thread()
                 }
             }
         }
-        
+
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
         SDL_RenderPresent(renderer);
-        
+
         SDL_Delay(1000/FPS);
     }
-    
+
     return 0;
 }
 
@@ -290,7 +290,7 @@ int move_up()
             }
         }
     }
-    
+
     int free_x[MAP_WIDTH];
     int free_index = 0;
     for(int x = 0; x < MAP_WIDTH; x++) {
@@ -310,7 +310,7 @@ int move_up()
             game_over(1);
         }
     }
-        
+
     return 0;
 }
 
@@ -338,7 +338,7 @@ int move_down()
             }
         }
     }
-    
+
     int free_x[MAP_WIDTH];
     int free_index = 0;
     for(int x = 0; x < MAP_WIDTH; x++) {
@@ -358,7 +358,7 @@ int move_down()
             game_over(1);
         }
     }
-    
+
     return 0;
 }
 int move_left()
@@ -385,7 +385,7 @@ int move_left()
             }
         }
     }
-    
+
     int free_y[MAP_HEIGHT];
     int free_index = 0;
     for(int y = 0; y < MAP_HEIGHT; y++) {
@@ -405,7 +405,7 @@ int move_left()
             game_over(0);
         }
     }
-    
+
     return 0;
 }
 
@@ -431,7 +431,7 @@ int move_right()
             }
         }
     }
-    
+
     int free_y[MAP_HEIGHT];
     int free_index = 0;
     for(int y = 0; y < MAP_HEIGHT; y++) {
@@ -451,7 +451,7 @@ int move_right()
             game_over(1);
         }
     }
-    
+
     return 0;
 }
 
@@ -463,28 +463,28 @@ int game_test()
             if(map[x][y] == 0) {
                 return 0;
             }
-            t_x = x; 
+            t_x = x;
             t_y = y+1;
             if(t_x >= 0 && t_x < MAP_WIDTH && t_y >= 0 && t_y < MAP_HEIGHT) {
                 if(map[x][y] == map[t_x][t_y]) {
                     return 0;
                 }
             }
-            t_x = x; 
+            t_x = x;
             t_y = y-1;
             if(t_x >= 0 && t_x < MAP_WIDTH && t_y >= 0 && t_y < MAP_HEIGHT) {
                 if(map[x][y] == map[t_x][t_y]) {
                     return 0;
                 }
             }
-            t_x = x-1; 
+            t_x = x-1;
             t_y = y;
             if(t_x >= 0 && t_x < MAP_WIDTH && t_y >= 0 && t_y < MAP_HEIGHT) {
                 if(map[x][y] == map[t_x][t_y]) {
                     return 0;
                 }
             }
-            t_x = x+1; 
+            t_x = x+1;
             t_y = y;
             if(t_x >= 0 && t_x < MAP_WIDTH && t_y >= 0 && t_y < MAP_HEIGHT) {
                 if(map[x][y] == map[t_x][t_y]) {
@@ -493,7 +493,7 @@ int game_test()
             }
         }
     }
-    
+
     return 1;
 }
 
@@ -507,7 +507,7 @@ int game_over(int s)
         SDL_Log("完全不能走了\n");
         SDL_ShowSimpleMessageBox(SDL_LOG_CATEGORY_ERROR, "游戏结束", "Can't go at all", NULL);
     }
-    
+
     game_reste();
     return 0;
 }
@@ -524,16 +524,14 @@ int game_reste()
     return 0;
 }
 
-
-
-int main(int argc, char **argv) {
-    game_init();
-    
-    SDL_CreateThread(render_thread, "renderer", NULL);
-    
+int event_thread() {
+    int is_down = 0;
+    SDL_FPoint p1;
+    SDL_FPoint p2;
+    float dx, dy;
     while(event.type != SDL_QUIT) {
         SDL_PollEvent(&event);
-        
+
         if(event.type == SDL_KEYDOWN) {
             if(event.key.keysym.sym == SDLK_UP && up_key_down == 0 && is_game_over != 1) {
                 SDL_Log("up\n");
@@ -561,7 +559,7 @@ int main(int argc, char **argv) {
                 r_key_down = 1;
             }
         }
-        
+
         if(event.type == SDL_KEYUP) {
             if(event.key.keysym.sym == SDLK_UP) {
                 up_key_down = 0;
@@ -579,8 +577,55 @@ int main(int argc, char **argv) {
                 r_key_down = 0;
             }
         }
+
+        if(event.type == SDL_DOLLARGESTURE) {
+            SDL_Log("手势\n");
+        }
+        if(event.type == SDL_FINGERDOWN) {
+            //SDL_Log("触摸按下事件: x:%f y:%f dx:%f xy:%f\n", event.tfinger.x, event.tfinger.y, event.tfinger.dx, event.tfinger.dy);
+            if(is_down == 0) {
+                is_down = 1;
+                p1.x = event.tfinger.x;
+                p1.y  = event.tfinger.y;
+            }
+        }
+        if(event.type == SDL_FINGERUP) {
+            //SDL_Log("触摸抬起事件: x:%f y:%f dx:%f xy:%f\n", event.tfinger.x, event.tfinger.y, event.tfinger.dx, event.tfinger.dy);
+            if(is_down == 1) {
+                is_down = 0;
+                p2.x = event.tfinger.x;
+                p2.y = event.tfinger.y;
+                SDL_Log("p1.x: %f p1.y %f   p2.x %f p2.y %f\n", p1.x, p1.y, p2.x, p2.y);
+                dx = p1.x - p2.x;
+                dy = p1.y - p2.y;
+
+                if(dx > 0.2) {
+                    move_left();
+                } else if(dx < -0.2) {
+                    move_right();
+                } else if(dy > 0.14) {
+                    move_up();
+                } else if(dy < -0.14) {
+                    move_down();
+                }
+            }
+        }
+        if(event.type == SDL_FINGERMOTION) {
+            //SDL_Log("触摸移动事件: x:%f y:%f dx:%f xy:%f\n", event.tfinger.x, event.tfinger.y, event.tfinger.dx, event.tfinger.dy);
+        }
+
     }
     
+    return 0;
+}
+
+
+int main(int argc, char **argv) {
+    game_init();
+
+    SDL_CreateThread(event_thread, "renderer", NULL);
+    render_thread();
+
     game_quit();
     return 0;
 }

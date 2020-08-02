@@ -1,11 +1,12 @@
 CC=gcc
-CFLAGS="-Wall"
+CFLAGS="-Wall" `pkg-config sdl2 SDL2_ttf --libs --cflags`
+BIN=sdl_game1
 
 debug:clean
-	$(CC) $(CFLAGS) -g -o sdl_game1 main.c `pkg-config sdl2 SDL2_ttf --libs --cflags`
-stable:clean
-	$(CC) $(CFLAGS) -o sdl_game1 main.c `pkg-config sdl2 SDL2_ttf --libs --cflags`
+	$(CC) $(CFLAGS) -g -o ${BIN} main.c 
+build:clean
+	$(CC) $(CFLAGS) -o ${BIN} main.c
 clean:
-	rm -vfr *~ sdl_game1
-run:stable
-	./sdl_game1
+	rm -vfr *~ ${BIN}
+run:build
+	./${BIN}
