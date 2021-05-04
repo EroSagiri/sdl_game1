@@ -1,0 +1,19 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: shell
+      run: apt update && apt install sdl2-dev libsdl2-ttf libsdl2-image
+    - name: make
+      run: make
+      
